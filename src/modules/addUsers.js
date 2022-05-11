@@ -8,20 +8,23 @@ export const addUsers = () => {
 
     form.addEventListener('submit', (e) => {
         e.preventDefault()
-        console.log(e);
 
-        const user = {
-            name: nameInput.value,
-            email: emailInput.value,
-            children: childrenInput.checked,
-            permissions: false
+        if (!form.dataset.method) {
+            const user = {
+                name: nameInput.value,
+                email: emailInput.value,
+                children: childrenInput.checked,
+                permissions: false
+            }
+
+            userService.addUser(user).then(() => {
+                userService.getUsers().then(users => {
+                    render(users)
+                    form.reset()
+                })
+            })
         }
 
-        userService.addUser(user).then(() => {
-            userService.getUsers().then(users => {
-                render(users)
-            })
-        })
 
     })
 }
